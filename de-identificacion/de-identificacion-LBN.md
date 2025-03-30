@@ -256,7 +256,7 @@ Elimina completamente ciertos campos o registros con alto riesgo de identificaci
 flowchart LR
     subgraph "Datos originales"
     A1[DNI: 12345678A]
-    A2[Comentario: "Juan dijo que vive en Calle Mayor 5"]
+    A2[Comentario: Información personal sensible]
     A3[Caso médico excepcional identificable]
     end
     
