@@ -13,3 +13,26 @@ Genera toda la información en un documento markdown
 
 ```
 
+Prompt:
+
+```
+
+¿Puedes añadir un gráfico visual (quizás utilzando mermaid) que explique alguna de las técnicas de de-identifación explicadas en el documento? Añádelo en el documento, justo debajo de la sección donde se explica la técnica
+
+```
+
+Prompt:
+
+```
+
+En los diagramas mermeaid generados, no se ven bien las letras debido a los colores. Ajústalos para que si el fondo es claro, las letras aparezcan en negro y puedan visualizarse
+
+```
+
+Prompt:
+
+```
+
+El diagrama del apartado 2.5 da el error que adjunto en la imagen
+
+```
