@@ -6,6 +6,20 @@
 
 La de-identificación es un conjunto de técnicas utilizadas para eliminar o modificar la información personal identificable (IPI) de los conjuntos de datos, manteniendo al mismo tiempo su utilidad para el análisis. El objetivo principal es proteger la privacidad de los individuos mientras se permite el uso de los datos para fines de investigación, desarrollo o análisis.
 
+```mermaid
+flowchart LR
+    A[Datos con información personal] --> B[Proceso de De-identificación]
+    B --> C[Datos de-identificados]
+    B --> D[Claves de re-identificación]
+    D -.-> E[Re-identificación controlada]
+    E -.-> C
+    style A fill:#f9d5e5,stroke:#333,stroke-width:2px,color:#000
+    style B fill:#fff5cc,stroke:#333,stroke-width:2px,color:#000
+    style C fill:#e0f0e0,stroke:#333,stroke-width:2px,color:#000
+    style D fill:#fff0cc,stroke:#333,stroke-width:2px,color:#000
+    style E fill:#e0e0f0,stroke:#333,stroke-width:2px,color:#000
+```
+
 ### 1.2 Importancia en el Desarrollo de Software
 
 En el contexto actual, donde los datos son un activo crucial, los equipos de desarrollo deben implementar técnicas de de-identificación para:
@@ -23,6 +37,23 @@ En el contexto actual, donde los datos son un activo crucial, los equipos de des
 | Mantiene claves o métodos para re-identificar | Elimina completamente la posibilidad de re-identificación |
 | Adecuada para usos internos y entornos controlados | Necesaria para la publicación pública de datos |
 
+```mermaid
+flowchart LR
+    A[Datos originales] --> B[De-identificación]
+    A --> C[Anonimización]
+    B --> D[Datos de-identificados]
+    C --> E[Datos anonimizados]
+    D --Usando claves--> F[Re-identificación posible]
+    E --X--> G[Re-identificación imposible]
+    style A fill:#f9f9f9,stroke:#333,stroke-width:2px,color:#000
+    style B fill:#e0f0e0,stroke:#333,stroke-width:2px,color:#000
+    style C fill:#e0e0f0,stroke:#333,stroke-width:2px,color:#000
+    style D fill:#e0f0e0,stroke:#333,stroke-width:2px,color:#000
+    style E fill:#e8f0ff,stroke:#333,stroke-width:2px,color:#000
+    style F fill:#ffe0e0,stroke:#333,stroke-width:2px,color:#000
+    style G fill:#e0f0e0,stroke:#333,stroke-width:2px,color:#000
+```
+
 ## 2. Principales Técnicas de De-identificación
 
 ### 2.1 Enmascaramiento de Datos
@@ -34,6 +65,40 @@ Consiste en ocultar partes de los datos originales, manteniendo su formato y par
 - Enmascarar correos: j****@empresa.com
 - Enmascarar nombres: J*** P****
 
+```mermaid
+flowchart TD
+    subgraph "Datos originales"
+    A1[Email: juan*@empresa.com]
+    A2[Tarjeta: 4532 1111 2222 3333]
+    A3[Teléfono: 612345678]
+    end
+    
+    subgraph "Enmascaramiento de Datos"
+    B[Proceso de enmascaramiento]
+    end
+    
+    subgraph "Datos enmascarados"
+    C1[Email: j****@empresa.com]
+    C2[Tarjeta: 4532 **** **** 3333]
+    C3[Teléfono: 61*****78]
+    end
+    
+    A1 --> B
+    A2 --> B
+    A3 --> B
+    B --> C1
+    B --> C2
+    B --> C3
+    
+    style A1 fill:#ffe8e8,stroke:#333,stroke-width:1px,color:#000
+    style A2 fill:#ffe8e8,stroke:#333,stroke-width:1px,color:#000
+    style A3 fill:#ffe8e8,stroke:#333,stroke-width:1px,color:#000
+    style B fill:#ffffdd,stroke:#333,stroke-width:1px,color:#000
+    style C1 fill:#e0f0e0,stroke:#333,stroke-width:1px,color:#000
+    style C2 fill:#e0f0e0,stroke:#333,stroke-width:1px,color:#000
+    style C3 fill:#e0f0e0,stroke:#333,stroke-width:1px,color:#000
+```
+
 ### 2.2 Seudonimización
 
 Reemplaza los identificadores directos con pseudónimos o códigos, manteniendo una tabla de correspondencia separada y segura.
@@ -42,6 +107,52 @@ Reemplaza los identificadores directos con pseudónimos o códigos, manteniendo 
 - Reemplazar nombres por códigos de usuario (Usuario_12345)
 - Sustituir direcciones IP por identificadores aleatorios
 - Asignar IDs temporales a registros médicos
+
+```mermaid
+flowchart LR
+    subgraph "Datos originales"
+    A1[Paciente: Ana García]
+    A2[DNI: 12345678A]
+    A3[IP: 192.168.1.1]
+    end
+    
+    subgraph "Proceso de Seudonimización"
+    B[Algoritmo de seudonimización]
+    end
+    
+    subgraph "Datos seudonimizados"
+    C1[Paciente: PAC_78943]
+    C2[ID: USR_45721]
+    C3[IP: IP_8A7C2F9]
+    end
+    
+    subgraph "Tabla de correspondencia"
+    D1["Ana García → PAC_78943"]
+    D2["12345678A → USR_45721"]
+    D3["192.168.1.1 → IP_8A7C2F9"]
+    end
+    
+    A1 --> B
+    A2 --> B
+    A3 --> B
+    B --> C1
+    B --> C2
+    B --> C3
+    B --> D1
+    B --> D2
+    B --> D3
+    
+    style A1 fill:#ffe8e8,stroke:#333,stroke-width:1px,color:#000
+    style A2 fill:#ffe8e8,stroke:#333,stroke-width:1px,color:#000
+    style A3 fill:#ffe8e8,stroke:#333,stroke-width:1px,color:#000
+    style B fill:#ffffdd,stroke:#333,stroke-width:1px,color:#000
+    style C1 fill:#e0f0e0,stroke:#333,stroke-width:1px,color:#000
+    style C2 fill:#e0f0e0,stroke:#333,stroke-width:1px,color:#000
+    style C3 fill:#e0f0e0,stroke:#333,stroke-width:1px,color:#000
+    style D1 fill:#e8f0ff,stroke:#333,stroke-width:1px,color:#000
+    style D2 fill:#e8f0ff,stroke:#333,stroke-width:1px,color:#000
+    style D3 fill:#e8f0ff,stroke:#333,stroke-width:1px,color:#000
+```
 
 ### 2.3 Generalización
 
@@ -52,6 +163,40 @@ Reduce la precisión de los datos para hacerlos menos específicos.
 - Agrupar códigos postales (28001-28005)
 - Usar rangos salariales en lugar de salarios exactos
 
+```mermaid
+flowchart TD
+    subgraph "Datos originales"
+    A1[Fecha nacimiento: 15/04/1985]
+    A2[Código postal: 28045]
+    A3[Salario: 42.350€]
+    end
+    
+    subgraph "Proceso de Generalización"
+    B[Algoritmos de generalización]
+    end
+    
+    subgraph "Datos generalizados"
+    C1[Rango edad: 35-40 años]
+    C2[Zona postal: 280XX]
+    C3[Rango salarial: 40K-45K€]
+    end
+    
+    A1 --> B
+    A2 --> B
+    A3 --> B
+    B --> C1
+    B --> C2
+    B --> C3
+    
+    style A1 fill:#ffe8e8,stroke:#333,stroke-width:1px,color:#000
+    style A2 fill:#ffe8e8,stroke:#333,stroke-width:1px,color:#000
+    style A3 fill:#ffe8e8,stroke:#333,stroke-width:1px,color:#000
+    style B fill:#ffffdd,stroke:#333,stroke-width:1px,color:#000
+    style C1 fill:#e0f0e0,stroke:#333,stroke-width:1px,color:#000
+    style C2 fill:#e0f0e0,stroke:#333,stroke-width:1px,color:#000
+    style C3 fill:#e0f0e0,stroke:#333,stroke-width:1px,color:#000
+```
+
 ### 2.4 Perturbación
 
 Añade "ruido" controlado a los datos numéricos para dificultar la identificación.
@@ -61,6 +206,43 @@ Añade "ruido" controlado a los datos numéricos para dificultar la identificaci
 - Aplicar pequeñas modificaciones a valores numéricos
 - Utilizar técnicas de privacidad diferencial
 
+```mermaid
+flowchart LR
+    subgraph "Datos originales"
+    A1[Coordenadas: 40.4168, -3.7038]
+    A2[Edad exacta: 37 años]
+    A3[Altura: 174 cm]
+    end
+    
+    subgraph "Proceso de Perturbación"
+    B[Algoritmo de perturbación]
+    B1[Adición de ruido controlado]
+    end
+    
+    subgraph "Datos perturbados"
+    C1[Coordenadas: 40.4173, -3.7042]
+    C2[Edad modificada: 39 años]
+    C3[Altura: 176 cm]
+    end
+    
+    A1 --> B
+    A2 --> B
+    A3 --> B
+    B --> B1
+    B1 --> C1
+    B1 --> C2
+    B1 --> C3
+    
+    style A1 fill:#ffe8e8,stroke:#333,stroke-width:1px,color:#000
+    style A2 fill:#ffe8e8,stroke:#333,stroke-width:1px,color:#000
+    style A3 fill:#ffe8e8,stroke:#333,stroke-width:1px,color:#000
+    style B fill:#ffffdd,stroke:#333,stroke-width:1px,color:#000
+    style B1 fill:#ffffdd,stroke:#333,stroke-width:1px,color:#000
+    style C1 fill:#e0f0e0,stroke:#333,stroke-width:1px,color:#000
+    style C2 fill:#e0f0e0,stroke:#333,stroke-width:1px,color:#000
+    style C3 fill:#e0f0e0,stroke:#333,stroke-width:1px,color:#000
+```
+
 ### 2.5 Supresión
 
 Elimina completamente ciertos campos o registros con alto riesgo de identificación.
@@ -69,6 +251,40 @@ Elimina completamente ciertos campos o registros con alto riesgo de identificaci
 - Eliminar números de identificación fiscal
 - Suprimir registros outliers que podrían ser fácilmente identificables
 - Eliminar campos de comentarios con información personal
+
+```mermaid
+flowchart LR
+    subgraph "Datos originales"
+    A1[DNI: 12345678A]
+    A2[Comentario: "Juan dijo que vive en Calle Mayor 5"]
+    A3[Caso médico excepcional identificable]
+    end
+    
+    subgraph "Proceso de Supresión"
+    B[Algoritmo de supresión]
+    end
+    
+    subgraph "Datos resultantes"
+    C1["DNI: [ELIMINADO]"]
+    C2["Comentario: [ELIMINADO]"]
+    C3["[REGISTRO COMPLETO ELIMINADO]"]
+    end
+    
+    A1 --> B
+    A2 --> B
+    A3 --> B
+    B --> C1
+    B --> C2
+    B --> C3
+    
+    style A1 fill:#ffe8e8,stroke:#333,stroke-width:1px,color:#000
+    style A2 fill:#ffe8e8,stroke:#333,stroke-width:1px,color:#000
+    style A3 fill:#ffe8e8,stroke:#333,stroke-width:1px,color:#000
+    style B fill:#ffffdd,stroke:#333,stroke-width:1px,color:#000
+    style C1 fill:#e0f0e0,stroke:#333,stroke-width:1px,color:#000
+    style C2 fill:#e0f0e0,stroke:#333,stroke-width:1px,color:#000
+    style C3 fill:#e0f0e0,stroke:#333,stroke-width:1px,color:#000
+```
 
 ## 3. Aplicación Práctica en Desarrollo de Software
 
@@ -264,6 +480,39 @@ df_deidentificado.write.parquet("datos_clientes_deidentificados.parquet")
 ```
 
 ## 4. Casos de Uso Prácticos
+
+```mermaid
+flowchart TD
+    A[Datos originales con información personal] --> B{Clasificación de datos}
+    B -->|Datos de alta sensibilidad| C[Supresión o Anonimización]
+    B -->|Datos de sensibilidad media| D[Seudonimización]
+    B -->|Datos de baja sensibilidad| E[Generalización/Enmascaramiento]
+    
+    C --> F[Sistema de gestión de acceso]
+    D --> F
+    E --> F
+    
+    F --> G1[Equipo de desarrollo]
+    F --> G2[Científicos de datos]
+    F --> G3[Terceros externos]
+    
+    G1 --> H1[Datos para pruebas]
+    G2 --> H2[Datos para análisis]
+    G3 --> H3[Datos para colaboración]
+    
+    style A fill:#ffe8e8,stroke:#333,stroke-width:1px,color:#000
+    style B fill:#ffffdd,stroke:#333,stroke-width:1px,color:#000
+    style C fill:#e0f0e0,stroke:#333,stroke-width:1px,color:#000
+    style D fill:#e0f0e0,stroke:#333,stroke-width:1px,color:#000
+    style E fill:#e0f0e0,stroke:#333,stroke-width:1px,color:#000
+    style F fill:#e8f0ff,stroke:#333,stroke-width:1px,color:#000
+    style G1 fill:#fff8e8,stroke:#333,stroke-width:1px,color:#000
+    style G2 fill:#fff8e8,stroke:#333,stroke-width:1px,color:#000
+    style G3 fill:#fff8e8,stroke:#333,stroke-width:1px,color:#000
+    style H1 fill:#e8f8e8,stroke:#333,stroke-width:1px,color:#000
+    style H2 fill:#e8f8e8,stroke:#333,stroke-width:1px,color:#000
+    style H3 fill:#e8f8e8,stroke:#333,stroke-width:1px,color:#000
+```
 
 ### 4.1 Entornos de Desarrollo y Pruebas
 
@@ -469,30 +718,30 @@ Mercadona implementó técnicas de de-identificación para su programa de fideli
 
 ### 7.1 Hoja de Ruta para la Adopción
 
-1. **Fase de evaluación (1-2 meses)**
-   - Inventario de datos sensibles
-   - Análisis de riesgos
-   - Definición de objetivos y requisitos
-
-2. **Fase de diseño (1-2 meses)**
-   - Selección de técnicas apropiadas
-   - Diseño de arquitectura
-   - Definición de políticas y procedimientos
-
-3. **Fase de implementación (2-3 meses)**
-   - Desarrollo de componentes de de-identificación
-   - Integración con sistemas existentes
-   - Pruebas de efectividad
-
-4. **Fase de despliegue (1 mes)**
-   - Capacitación del equipo
-   - Despliegue progresivo
-   - Monitorización inicial
-
-5. **Fase de operación continua**
-   - Auditorías periódicas
-   - Mejora continua
-   - Actualización según evolución normativa
+```mermaid
+gantt
+    title Hoja de Ruta para Implementación de De-identificación
+    dateFormat  YYYY-MM-DD
+    section Fase de Evaluación
+    Inventario de datos sensibles      :a1, 2023-01-01, 15d
+    Análisis de riesgos                :a2, after a1, 15d
+    Definición de objetivos            :a3, after a2, 15d
+    section Fase de Diseño
+    Selección de técnicas              :b1, after a3, 15d
+    Diseño de arquitectura             :b2, after b1, 15d
+    Definición de políticas            :b3, after b1, 15d
+    section Fase de Implementación
+    Desarrollo de componentes          :c1, after b2, 30d
+    Integración con sistemas           :c2, after c1, 15d
+    Pruebas de efectividad             :c3, after c2, 15d
+    section Fase de Despliegue
+    Capacitación del equipo            :d1, after c3, 10d
+    Despliegue progresivo              :d2, after d1, 10d
+    Monitorización inicial             :d3, after d2, 10d
+    section Fase Continua
+    Auditorías periódicas              :e1, after d3, 30d
+    Mejora continua                    :e2, after e1, 30d
+```
 
 ### 7.2 Métricas de Éxito
 
